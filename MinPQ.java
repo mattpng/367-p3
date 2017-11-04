@@ -16,7 +16,6 @@ public class MinPQ<E extends Comparable<E>> implements PriorityQueueADT<E>
 {
     private E[] items;
     private static final int INITIAL_SIZE = 10;
-    
     private int numItems = 0;
 
     //ADD MORE DATA PRIVATE DATA FIELDS AS YOU NEED.
@@ -24,7 +23,6 @@ public class MinPQ<E extends Comparable<E>> implements PriorityQueueADT<E>
     public MinPQ()
     {
         this.items = (E[]) new Comparable[INITIAL_SIZE];
-        
         // TO-DO: Complete the constructor for any private data fields that you add.
     }
     
@@ -53,15 +51,32 @@ public class MinPQ<E extends Comparable<E>> implements PriorityQueueADT<E>
      */
      public void insert(E item){
     	boolean done = false;
-    	 
+    	E tmp;
+
      	if (item == null) 
      		throw new IllegalArgumentException();
      	if (numItems == items.length)
      		Arrays.copyOf(items, size() * 2);
      	
      	items[numItems+1] = item;
+     	int index = numItems+1;
      	
      	while (!done){
+     		
+     		if ((index/2 == 0) || numItems==0){
+     			done = true;
+     			break;
+     		}
+     		
+     		if (item.compareTo(items[index/2]) < 0){
+     			tmp = items[index];
+         		items[index] = item;
+         		items[numItems+1] = tmp;
+         		
+     		}else{
+     			done = true;
+     		}
+     		
      		
      	}
      	
@@ -96,7 +111,15 @@ public class MinPQ<E extends Comparable<E>> implements PriorityQueueADT<E>
      * @throws EmptyQueueException if priority queue is empty.
      */
     public E removeMax() throws EmptyQueueException{
-    	// TODO
+    	if (isEmpty() == true){throw new EmptyQueueException();}
+    	E tmp = items[1];
+    	
+    	for(int j=1; j<= numItems; j++){
+    		items[j] = items[j+1];
+    	}
+    	numItems--;
+    	return tmp;
+
     }
 
     /**
@@ -106,7 +129,8 @@ public class MinPQ<E extends Comparable<E>> implements PriorityQueueADT<E>
      */
     public int size(){
 		return numItems;
-    	
     }
     
+}
+
 }
