@@ -78,6 +78,7 @@ public class MedianStream
     		   else
     		   {
     			   System.out.println(EXIT_MESSAGE);
+			   quit = true;
     		   }
     	   }
        }
@@ -122,6 +123,8 @@ public class MedianStream
 				}
 				else
 				{
+					read.close();
+					toFile.close();
 					return;
 				}
 			}
