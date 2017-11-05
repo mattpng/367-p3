@@ -54,7 +54,17 @@ public class MedianStream
      */
     private static void runInteractiveMode()
     {
+        // Started testing MinPQ, bug expanding array (inserting 10th element)
+        /**
+	    MinPQ<Double> minpq = new MinPQ<Double>()
+    	
+    	for (int k=1; k<50; k++){
+    		minpq.insert(2.0 * k);	
+    	  	System.out.println(minpq.getMax());
 
+    	}
+        **/
+        
     }
 
     /**
