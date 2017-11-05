@@ -54,17 +54,14 @@ public class MedianStream
      */
     private static void runInteractiveMode()
     {
-        // Started testing MinPQ, bug expanding array (inserting 10th element)
-        /**
-	    MinPQ<Double> minpq = new MinPQ<Double>()
-    	
-    	for (int k=1; k<50; k++){
-    		minpq.insert(2.0 * k);	
-    	  	System.out.println(minpq.getMax());
-
-    	}
-        **/
-        
+       Scanner stdin = new Scanner(System.in);
+       
+       
+       
+       
+       
+       
+       stdin.close();
     }
 
     /**
@@ -86,6 +83,34 @@ public class MedianStream
      */
     private static void findMedianForFile(String filename)
     {
+    	try
+		{
+    		String[] parse = filename.split("\\.");
+    		MedianStream temps = new MedianStream();
+			File dataSet = new File(filename);
+			File output = new File(parse[0] + "_out.txt");
+			Scanner read = new Scanner(dataSet);
+			PrintWriter toFile = new PrintWriter(output);
+			while(read.hasNext())
+			{
+				if(read.hasNextDouble())
+				{
+					Double toAdd = read.nextDouble();
+					temps.currentMedian = temps.getMedian(toAdd);
+					toFile.printf(DOUBLE_FORMAT, temps.currentMedian);
+				}
+				else
+				{
+					return;
+				}
+			}
+			read.close();
+			toFile.close();
+		}
+		catch(FileNotFoundException e)
+		{
+			System.out.println(FNF_MESSAGE);
+		}
 
     }
 
@@ -104,7 +129,60 @@ public class MedianStream
      */
     private Double getMedian(Double newReading)
     {
-
+    	if(newReading >= currentMedian)
+    	{
+    		if(minHeap.size() == maxHeap.size())
+    		{
+    			minHeap.insert(newReading);
+    			return minHeap.getMax();
+    		}
+    		else if(minHeap.size() == maxHeap.size() - 1)
+    		{
+    			minHeap.insert(newReading);
+    			Double maxP = maxHeap.getMax();
+    			Double minP = minHeap.getMax();
+    			Double avg = (maxP + minP)/2;
+    			return avg;
+    		}
+    		else if(minHeap.size() == maxHeap.size() + 1)
+    		{
+    			Double str = minHeap.removeMax();
+    			maxHeap.insert(str);
+    			minHeap.insert(newReading);
+    			Double maxP = maxHeap.getMax();
+    			Double minP = minHeap.getMax();
+    			Double avg = (maxP + minP)/2;
+    			return avg;
+    		}
+    	}
+    	else if(newReading < currentMedian)
+    	{
+    		if(minHeap.size() == maxHeap.size())
+    		{
+    			maxHeap.insert(newReading);
+    			return maxHeap.getMax();
+    		}
+    		else if(maxHeap.size() == minHeap.size() - 1)
+    		{
+    			maxHeap.insert(newReading);
+    			Double maxP = maxHeap.getMax();
+    			Double minP = minHeap.getMax();
+    			Double avg = (maxP + minP)/2;
+    			return avg;
+    		}
+    		else if(maxHeap.size() == minHeap.size() + 1)
+    		{
+    			Double str = maxHeap.removeMax();
+    			minHeap.insert(str);
+    			maxHeap.insert(newReading);
+    			Double maxP = maxHeap.getMax();
+    			Double minP = minHeap.getMax();
+    			Double avg = (maxP + minP)/2;
+    			return avg;
+    		}
+    	}
+    	
+    	return null;    	
     }
 
     // DO NOT EDIT THE main METHOD.
