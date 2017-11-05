@@ -50,11 +50,11 @@ public class MaxPQ<E extends Comparable<E>> implements PriorityQueueADT<E>
     	 boolean done = false;
     	 E tmp;
 
-    	 if (item == null) 
+    	 if (item == null ) 
     		 throw new IllegalArgumentException();
-    	 if (numItems == items.length+1){
-    		items = Arrays.copyOf(items, size() *2);
-    		System.out.println("xander is gay");
+    	 if (numItems + 1 == items.length)
+    	 {
+    		items = Arrays.copyOf(items, items.length *2);
     	 }
     	 
     	 items[numItems+1] = item;
@@ -108,13 +108,17 @@ public class MaxPQ<E extends Comparable<E>> implements PriorityQueueADT<E>
      * @return the highest priority item in the priority queue.
      * @throws EmptyQueueException if priority queue is empty.
      */
-     public E removeMax() throws EmptyQueueException{
+     public E removeMax() throws EmptyQueueException
+     {
      	if (isEmpty() == true){throw new EmptyQueueException();}
      	E tmp = items[1];
+     	System.out.println(items[1]);
      	
      	for(int j=1; j<= numItems; j++){
      		items[j] = items[j+1];
      	}
+     	System.out.println(items[1]);
+     	
      	numItems--;
      	return tmp;
 
@@ -125,7 +129,8 @@ public class MaxPQ<E extends Comparable<E>> implements PriorityQueueADT<E>
      *
      * @return number of elements in the queue.
      */
-    public int size(){
+    public int size()
+    {
 		return numItems;
     }
 }

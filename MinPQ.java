@@ -54,9 +54,14 @@ public class MinPQ<E extends Comparable<E>> implements PriorityQueueADT<E>
     	E tmp;
 
      	if (item == null) 
+     	{
      		throw new IllegalArgumentException();
-     	if (numItems == items.length)
-     		Arrays.copyOf(items, size() * 2);
+     	}
+     	
+     	if (numItems + 1 == items.length)
+     	{
+     		items = Arrays.copyOf(items, items.length * 2);
+     	}
      	
      	items[numItems+1] = item;
      	int index = numItems+1;
@@ -131,6 +136,4 @@ public class MinPQ<E extends Comparable<E>> implements PriorityQueueADT<E>
 		return numItems;
     }
     
-}
-
 }
