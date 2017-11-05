@@ -119,3 +119,18 @@ public class MaxPQ<E extends Comparable<E>> implements PriorityQueueADT<E>
      	}
      	System.out.println(items[1]);
      	
+     	numItems--;
+     	return tmp;
+
+     }
+
+    /**
+     * Returns the number of elements in the priority queue.
+     *
+     * @return number of elements in the queue.
+     */
+    public int size()
+    {
+		return numItems;
+    }
+}
