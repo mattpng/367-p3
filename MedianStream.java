@@ -55,11 +55,32 @@ public class MedianStream
     private static void runInteractiveMode()
     {
        Scanner stdin = new Scanner(System.in);
-       
-       
-       
-       
-       
+       MedianStream temps = new MedianStream();
+       boolean quit = false;
+       while(!quit)
+       {
+    	   System.out.println(PROMPT_NEXT_VALUE);
+    	   String nonDub;
+    	   Double input;
+    	   if(stdin.hasNextDouble())
+    	   {
+    		   input = stdin.nextDouble();
+    		   temps.currentMedian = temps.getMedian(input);
+    		   System.out.println(MEDIAN + temps.currentMedian);
+    	   }
+    	   else if(stdin.hasNext())
+    	   {
+    		   nonDub = stdin.next();
+    		   if(nonDub.equals("q"))
+    		   {
+    			   quit = true;
+    		   }
+    		   else
+    		   {
+    			   System.out.println(EXIT_MESSAGE);
+    		   }
+    	   }
+       }
        
        stdin.close();
     }
