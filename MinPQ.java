@@ -49,44 +49,43 @@ public class MinPQ<E extends Comparable<E>> implements PriorityQueueADT<E>
      * @param item the item to add
      * @throws IllegalArgumentException if item is null
      */
-     public void insert(E item){
-    	boolean done = false;
-    	E tmp;
-
-     	if (item == null) 
-     	{
-     		throw new IllegalArgumentException();
-     	}
-     	
-     	if (numItems + 1 == items.length)
-     	{
-     		items = Arrays.copyOf(items, items.length * 2);
-     	}
-     	
-     	items[numItems+1] = item;
-     	int index = numItems+1;
-     	
-     	while (!done){
-     		
-     		if ((index/2 == 0) || numItems==0){
-     			done = true;
-     			break;
-     		}
-     		
-     		if (item.compareTo(items[index/2]) < 0){
-     			tmp = items[index];
-         		items[index] = item;
-         		items[numItems+1] = tmp;
-         		
-     		}else{
-     			done = true;
-     		}
-     		
-     		
-     	}
-     	
-     	numItems++;
-     	
+     public void insert(E item)
+     {
+    	 boolean done = false;
+    	 if (item == null ) 
+    		 throw new IllegalArgumentException();
+    	 
+    	 if (numItems + 1 == items.length)
+    	 {
+    		items = Arrays.copyOf(items, items.length *2);
+    	 }
+    	 
+    	 items[numItems+1] = item;
+    	 int index = numItems+1;
+    	 int check = index/2;
+ 	
+    	 while (!done){
+    		 
+	 		if (index == 1)
+	 		{
+	 			done = true;
+	 			break;
+	 		}
+	 		
+	 		if (item.compareTo(items[check]) < 0)
+	 		{
+	 			items[index] = items[check];
+	 			items[check] = item;
+	 			index = check;
+	 			check = index/2;
+	     		
+	 		}else{
+	 			done = true;
+	 		}	
+	 	}
+	 	
+	 	numItems++;
+	 
      }
     /**
      * Returns the highest priority item in the priority queue.
@@ -118,10 +117,42 @@ public class MinPQ<E extends Comparable<E>> implements PriorityQueueADT<E>
     public E removeMax() throws EmptyQueueException{
     	if (isEmpty() == true){throw new EmptyQueueException();}
     	E tmp = items[1];
+    	E tmp2 = null;
+    	boolean done = false; 
+    	items[1] = items[numItems];
     	
-    	for(int j=1; j<= numItems; j++){
-    		items[j] = items[j+1];
+    	int index=1;
+    	int swapIndex = 0;
+    	
+    	while(!done){
+    		
+    		if (index*2 > numItems || index*2+1 > numItems){
+    			done=true;
+    			break;
+    		}
+    		
+    		
+    		if (tmp.compareTo(items[index*2]) < 0 || tmp.compareTo(items[index*2+1]) < 0 ){
+    			if (items[index*2].compareTo(items[index*2+1]) <= 0){
+    				swapIndex = index*2;
+    			}
+    			else{
+    				swapIndex = index*2+1;
+    			}
+    			
+    			tmp2 = items[index];
+    			items[index] = items[swapIndex];
+    			items[swapIndex] = tmp2;
+    			index = swapIndex;
+    			
+    		}
+    		else{
+    			done=true;
+    			break;
+    		}
     	}
+    
+   
     	numItems--;
     	return tmp;
 
@@ -134,6 +165,12 @@ public class MinPQ<E extends Comparable<E>> implements PriorityQueueADT<E>
      */
     public int size(){
 		return numItems;
+    }
+    
+    
+    // To be removed
+    public E get(int i){
+    	return items[i];
     }
     
 }
