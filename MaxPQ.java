@@ -52,6 +52,7 @@ public class MaxPQ<E extends Comparable<E>> implements PriorityQueueADT<E>
 
     	 if (item == null ) 
     		 throw new IllegalArgumentException();
+    	 
     	 if (numItems + 1 == items.length)
     	 {
     		items = Arrays.copyOf(items, items.length *2);
@@ -59,19 +60,22 @@ public class MaxPQ<E extends Comparable<E>> implements PriorityQueueADT<E>
     	 
     	 items[numItems+1] = item;
     	 int index = numItems+1;
+    	 int check = index/2;
  	
     	 while (!done){
     		 
-	 		if (index/2 == 0){
+	 		if (index == 1)
+	 		{
 	 			done = true;
 	 			break;
 	 		}
 	 		
-	 		if (item.compareTo(items[index/2]) > 0){
-	 			index = index/2;
-	 			tmp = items[index];
-	     		items[index] = item;
-	     		items[numItems+1] = tmp;
+	 		if (item.compareTo(items[check]) > 0)
+	 		{
+	 			items[index] = items[check];
+	 			items[check] = item;
+	 			index = check;
+	 			check = index/2;
 	     		
 	 		}else{
 	 			done = true;
@@ -108,22 +112,49 @@ public class MaxPQ<E extends Comparable<E>> implements PriorityQueueADT<E>
      * @return the highest priority item in the priority queue.
      * @throws EmptyQueueException if priority queue is empty.
      */
-     public E removeMax() throws EmptyQueueException
-     {
+     public E removeMax() throws EmptyQueueException {
      	if (isEmpty() == true){throw new EmptyQueueException();}
      	E tmp = items[1];
-     	System.out.println(items[1]);
+     	E tmp2 = null;
+     	boolean done = false; 
+     	items[1] = items[numItems];
      	
-     	for(int j=1; j<= numItems; j++){
-     		items[j] = items[j+1];
+     	int index=1;
+     	int swapIndex = 0;
+     	
+     	while(!done){
+     		
+     		if (index*2+1 > numItems){
+     			done=true;
+     			break;
+     		}
+     		
+     		
+     		if (tmp.compareTo(items[index*2]) > 0 || tmp.compareTo(items[index*2+1]) > 0 ){
+     			if (items[index*2].compareTo(items[index*2+1]) >= 0){
+     				swapIndex = index*2;
+     			}
+     			else{
+     				swapIndex = index*2+1;
+     			}
+     			
+     			tmp2 = items[index];
+     			items[index] = items[swapIndex];
+     			items[swapIndex] = tmp2;
+     			index = swapIndex;
+     			
+     		}
+     		else{
+     			done=true;
+     			break;
+     		}
      	}
-     	System.out.println(items[1]);
-     	
+     
+    
      	numItems--;
      	return tmp;
 
      }
-
     /**
      * Returns the number of elements in the priority queue.
      *
@@ -132,5 +163,10 @@ public class MaxPQ<E extends Comparable<E>> implements PriorityQueueADT<E>
     public int size()
     {
 		return numItems;
+    }
+    
+ // To be removed
+    public E get(int i){
+    	return items[i];
     }
 }
