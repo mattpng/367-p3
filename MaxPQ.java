@@ -3,7 +3,7 @@ import java.util.Arrays;
 /**
  * MaxPQ represents the priority queue where the maximum value is the highest
  * priority. This priority queue is implemented using an array-based heap and
- * stores the values greater than the median.
+ * stores the values less than the median.
  *
  * <p>Bugs: NA
  *
